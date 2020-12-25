@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "myApp",
   "description": "cloud music",
-  "appid": "touristappid",
+  "appid": "wx173c663fb6e64652",
   "setting": {
     "urlCheck": true,
     "es6": false,
