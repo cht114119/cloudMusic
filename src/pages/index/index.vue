@@ -9,7 +9,7 @@
 <script>
 import SearchModule from 'components/searchModule/index.vue'
 import SEARCH_DEFAULT from 'api/index.js'
-import get from 'utils/ajax'
+import commonAjax from 'utils/ajax'
 import Taro from '@tarojs/taro';
 import { mapState, mapMutations } from 'vuex'
 
@@ -20,24 +20,25 @@ export default {
     },
     onShow() {
         this.setIsFocus(true)
+        this.getDefaultKeyword()
 
     },
     methods: {
-      ...mapMutations({
+        ...mapMutations({
             setIsFocus: 'search/setIsFocus'
         }),
         async getDefaultKeyword() {
-            console.log('getDefaultKeyword');
+            console.log('get', commonAjax.get);
+            console.log('getDefaultKeyword===>1');
             try {
-                // const res = await get(SEARCH_DEFAULT)
-                const res = await Taro.request({
-                    url: 'http://127.0.0.1:3000/search/default',
-                    method: 'GET'
-                })
+                const res = await commonAjax.get('/search/default',)
+                // const res = await Taro.request({
+                //     url: '/search/default',
+                //     method: 'GET'
+                // })
                 console.log('getDefaultKeyword===>res', res);
             } catch (error) {
-                // throw new Error(error)
-                console.log(error);
+                throw new Error(error)
             }
         }
     }

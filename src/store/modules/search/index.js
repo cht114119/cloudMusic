@@ -1,5 +1,5 @@
 import get from 'utils/ajax'
-import SEARCH_DEFAULT from 'api/index'
+import API from 'api/index'
 
 const state = {
   isFocus: true,
@@ -20,11 +20,13 @@ const mutations = {
 }
 const actions = {
   getPlaceholderVar({ state, commit }, params) {
-    return get(SEARCH_DEFAULT)
+    return get(API.SEARCH_DEFAULT)
       .then(data => {
         commit('setPlaceholderVar', data.information)
       })
-      .catch(() => { })
+      .catch(() => {
+        throw new Error(error)
+      })
 
   },
 }

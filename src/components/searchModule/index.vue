@@ -89,6 +89,7 @@ export default {
             // this.isFocus = false
         },
         async getDefaultKeyword() {
+            console.log('getDefaultKeyword==>searchModule');
             try {
                 const res = await post(SEARCH_DEFAULT)
                 if (res) {

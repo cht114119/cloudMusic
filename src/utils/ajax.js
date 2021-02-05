@@ -5,12 +5,12 @@ import common from './common.js'
 import errorCode from './code'
 import Taro from '@tarojs/taro';
 const { httpErrorCode, serverErrorCode } = errorCode
-const baseUrl = 'http://127.0.0.1:3000'
+const baseUrl = 'https://mp.cht666666.cn'
 
 
 const prodDomain = {
-  mini: 'http://127.0.0.1:3000',
-  stats: 'http://127.0.0.1:3000'
+  mini: 'https://mp.cht666666.cn',
+  stats: 'https://mp.cht666666.cn'
 }
 let domain = {}
 if (process.env.NODE_ENV === 'development') {
@@ -20,18 +20,18 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // 加 时间戳 和 签名
-const addStamp = data => {
-  let sign = ''
-  data.time = Date.now().toString()
+// const addStamp = data => {
+//   let sign = ''
+//   data.time = Date.now().toString()
 
-  for (let key of Object.keys(data).sort()) {
-    sign += data[key] + ''
-  }
-  // sign += 'sd_secret' // 加盐
+//   for (let key of Object.keys(data).sort()) {
+//     sign += data[key] + ''
+//   }
+//   // sign += 'sd_secret' // 加盐
 
-  // data.sign = md5(sign).toUpperCase() // MD5 加密
-  return data
-}
+//   // data.sign = md5(sign).toUpperCase() // MD5 加密
+//   return data
+// }
 // 请求方法内核
 const core = ({ url, data, domain, header = {}, method = 'POST' }) => {
   url = domain + url
@@ -45,10 +45,11 @@ const core = ({ url, data, domain, header = {}, method = 'POST' }) => {
     header
   })
     .then((res) => {
+      console.log('请求方法内核res',res);
       const { data, statusCode } = res
       let httpError = httpErrorCode[Math.min(statusCode / 100)]
       let serverError = serverErrorCode[data.code]
-      return Promise.resolve(data)
+      return Promise.resolve(res)
     })
     .catch(err => {
       // 统一的错误处理
@@ -77,7 +78,8 @@ const post = (url, data = {}, customizedDomain) => {
   // }
   return core({
     url,
-    data: addStamp(common.deepCopy(data)),
+    // data: addStamp(common.deepCopy(data)),
+    data: common.deepCopy(data),
     domain: customizedDomain || domain['mini'],
     // header
   })
